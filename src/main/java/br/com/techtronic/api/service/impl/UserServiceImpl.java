@@ -4,6 +4,7 @@ import br.com.techtronic.api.domain.User;
 import br.com.techtronic.api.domain.dto.UserDTO;
 import br.com.techtronic.api.repository.UserRepository;
 import br.com.techtronic.api.service.UserService;
+import br.com.techtronic.api.service.exceptions.DataIntegratyViolationException;
 import br.com.techtronic.api.service.exceptions.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -31,7 +32,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserDTO userDTO) {
+        findByEmail(userDTO);
         return userRepository.save(mapper.map(userDTO, User.class));
+    }
+
+    private void findByEmail(UserDTO userDTO){
+        Optional<User> user = userRepository.findByEmail(userDTO.getEmail());
+        if (user.isPresent()){
+            throw new DataIntegratyViolationException("Email já cadstrado no sistema");
+        }
     }
 
 }
