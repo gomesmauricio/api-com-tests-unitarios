@@ -4,6 +4,7 @@ import br.com.techtronic.api.domain.User;
 import br.com.techtronic.api.domain.dto.UserDTO;
 import br.com.techtronic.api.mother.UserMother;
 import br.com.techtronic.api.repository.UserRepository;
+import br.com.techtronic.api.service.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class UserServiceImplTest {
 
+
     @InjectMocks
     private UserServiceImpl service;
 
@@ -32,6 +34,7 @@ class UserServiceImplTest {
     private static final Integer ID   = 1;
     private static final String NAME  = "Test Silva";
     private static final String EMAIL = "test@mail.com";
+    public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
 
 
     private User user                   = UserMother.getUser();
@@ -55,6 +58,19 @@ class UserServiceImplTest {
         assertEquals(ID, response.getId());
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
+    }
+
+    @Test
+    void whenFindByIdThenReturnAnObjectNotFoundException(){
+        when(userRepository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
+
+        try {
+            service.findById(ID);
+        }catch (Exception ex){
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
+        }
+
     }
 
     @Test
