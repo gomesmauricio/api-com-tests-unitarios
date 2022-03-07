@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UserServiceImplTest {
@@ -41,14 +41,12 @@ class UserServiceImplTest {
     public static final String EMAIL_JA_CADSTRADO_NO_SISTEMA = "Email já cadstrado no sistema";
     public static final int INDEX = 0;
 
-
     private final User user                   = UserMother.getUser();
     private final UserDTO userDTO             = UserMother.getUserDTO();
     private final Optional<User> optionalUser = UserMother.getUserOptional();
 
     @BeforeEach
     void setUp() {
-
         MockitoAnnotations.openMocks(this);
     }
 
@@ -151,6 +149,10 @@ class UserServiceImplTest {
     }
 
     @Test
-    void delete() {
+    void deleteWithSucess() {
+        when(userRepository.findById(anyInt())).thenReturn(optionalUser);
+        doNothing().when(userRepository).deleteById(anyInt());
+        service.delete(ID);
+        verify(userRepository, times(1)).deleteById(anyInt());
     }
 }
