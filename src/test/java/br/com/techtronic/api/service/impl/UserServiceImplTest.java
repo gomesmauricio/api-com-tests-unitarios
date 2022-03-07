@@ -24,6 +24,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class UserServiceImplTest {
 
+
     @InjectMocks
     private UserServiceImpl service;
 
@@ -37,8 +38,8 @@ class UserServiceImplTest {
     private static final String NAME  = "Test Silva";
     private static final String EMAIL = "test@mail.com";
     private static final String PASSWORD = "123";
-    public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
     public static final String EMAIL_JA_CADSTRADO_NO_SISTEMA = "Email já cadstrado no sistema";
+    public static final String OBJETO_NAO_ENCONTRADO = "Objeto nao encontrado";
     public static final int INDEX = 0;
 
     private final User user                   = UserMother.getUser();
@@ -154,5 +155,16 @@ class UserServiceImplTest {
         doNothing().when(userRepository).deleteById(anyInt());
         service.delete(ID);
         verify(userRepository, times(1)).deleteById(anyInt());
+    }
+
+    @Test
+    void deleteWithObjectNotFoundException(){
+        when(userRepository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
+        try {
+            userRepository.deleteById(ID);
+        }catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
+        }
     }
 }
