@@ -35,12 +35,13 @@ class UserServiceImplTest {
     private ModelMapper mapper;
 
     private static final Integer ID   = 1;
+    public static final int INDEX = 0;
     private static final String NAME  = "Test Silva";
     private static final String EMAIL = "test@mail.com";
     private static final String PASSWORD = "123";
     public static final String EMAIL_JA_CADSTRADO_NO_SISTEMA = "Email já cadstrado no sistema";
     public static final String OBJETO_NAO_ENCONTRADO = "Objeto nao encontrado";
-    public static final int INDEX = 0;
+
 
     private final User user                   = UserMother.getUser();
     private final UserDTO userDTO             = UserMother.getUserDTO();
