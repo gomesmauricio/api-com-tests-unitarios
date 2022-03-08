@@ -4,7 +4,6 @@ import br.com.techtronic.api.domain.User;
 import br.com.techtronic.api.domain.dto.UserDTO;
 import br.com.techtronic.api.mother.UserMother;
 import br.com.techtronic.api.service.impl.UserServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
