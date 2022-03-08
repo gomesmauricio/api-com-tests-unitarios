@@ -22,8 +22,8 @@ public class UserMother {
     public static UserDTO getUserDTO(){
         UserDTO userDTO = new UserDTO();
         userDTO.setId(1);
-        userDTO.setName("TestDTO");
-        userDTO.setName("dto@mail.com");
+        userDTO.setName("Test Silva");
+        userDTO.setEmail("test@mail.com");
         userDTO.setPassword("123");
         return userDTO;
     }
