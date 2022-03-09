@@ -89,7 +89,14 @@ class UserControllerTest {
     }
 
     @Test
-    void create() {
+    void whencreateThenReturnCreated() {
+        when(service.create(any())).thenReturn(user);
+
+        ResponseEntity<UserDTO> response = controller.create(userDTO);
+
+        assertEquals(ResponseEntity.class, response.getClass());//valida se a resposta é do tipo ResponseEntity
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getHeaders().get("Location"));//Valida o cabelçalho da resposta
     }
 
     @Test
