@@ -11,7 +11,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -63,7 +68,24 @@ class UserControllerTest {
     }
 
     @Test
-    void findAll() {
+    void whenfindAllThenReturnAListOfUserDTO() {
+        when(service.findAll()).thenReturn(List.of(user));
+        when(mapper.map(any(), any())).thenReturn(userDTO);
+
+        ResponseEntity<List<UserDTO>> response = controller.findAll();
+
+        assertNotNull(response);//verifica se o objeto de resposta não é nulo
+        assertNotNull(response.getBody());//verifica se o corpo da resposta não é null
+        assertEquals(HttpStatus.OK, response.getStatusCode());//verifica se status code da resposta é 200 OK
+        assertEquals(ResponseEntity.class, response.getClass());//assegurando que a resposta é do tipo ResponseEntity
+        assertEquals(ArrayList.class, response.getBody().getClass());//Testa se a resposta é um array list
+
+        assertEquals(UserDTO.class, response.getBody().get(INDEX).getClass());//Testa se objeto dentro da lista é do tipo UserDTO
+
+        assertEquals(ID, response.getBody().get(INDEX).getId());//testa se o id do objeto na posição 0 da lista é o "0"
+        assertEquals(NAME, response.getBody().get(INDEX).getName());
+        assertEquals(EMAIL, response.getBody().get(INDEX).getEmail());
+        assertEquals(PASSWORD, response.getBody().get(INDEX).getPassword());
     }
 
     @Test
