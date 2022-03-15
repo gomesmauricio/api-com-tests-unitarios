@@ -1,6 +1,5 @@
 package br.com.techtronic.api.controller;
 
-import br.com.techtronic.api.domain.User;
 import br.com.techtronic.api.domain.dto.UserDTO;
 import br.com.techtronic.api.service.UserService;
 import lombok.AllArgsConstructor;
